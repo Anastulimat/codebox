@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
-import {Geist, Geist_Mono, Inter, Pixelify_Sans} from "next/font/google";
+import {Geist, Geist_Mono, Inter, Jersey_10} from "next/font/google";
 import "./globals.css";
+import {ThemeProvider} from "@/components/theme-provider";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -12,15 +13,16 @@ const geistMono = Geist_Mono({
     subsets: ["latin"],
 });
 
-const gameFont = Pixelify_Sans({
+const gameFont = Jersey_10({
     variable: "--font-game",
     subsets: ["latin"],
+    weight: ["400"]
 });
 
 const inter = Inter({
     variable: "--font-inter",
     subsets: ["latin"]
-})
+});
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -34,11 +36,18 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <body
                 className={`${geistSans.variable} ${geistMono.variable} ${gameFont.variable} ${inter.variable} antialiased`}
             >
-                {children}
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="dark"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    {children}
+                </ThemeProvider>
             </body>
         </html>
     );
