@@ -10,6 +10,14 @@ import {
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
 import Link from "next/link";
+import { Menu } from "lucide-react"; // Import de l'icône menu
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet";
 
 // ----------------------------------------------------------------------
 
@@ -73,48 +81,79 @@ const courses = [
 
 const Header = () => {
     return (
-        <div className="p-4 max-w-7xl flex justify-between items-center w-full">
+        <div className="p-4 max-w-7xl mx-auto flex justify-between items-center w-full">
             <div className="flex items-center gap-2">
                 <Image src="/logo.png" alt="Logo" width={40} height={40}/>
                 <h2 className="font-bold text-3xl font-game">CodeBox</h2>
             </div>
 
-            <NavigationMenu>
-                <NavigationMenuList className="gap-8">
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger>Courses</NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            <ul className="grid md:grid-cols-2 gap-2 sm:w-100 md:w-125 lg:w-150">
-                                {courses.map((course, index) => (
-                                    <div key={index} className="p-2 hover:bg-accent rounded-xl cursor-pointer">
-                                        <h2 className="font-medium">{course.name}</h2>
-                                        <p className="text-xs">{course.desc}</p>
-                                    </div>
-                                ))}
-                            </ul>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <NavigationMenuLink asChild>
-                            <Link href="/projects">Projects</Link>
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <NavigationMenuLink asChild>
-                            <Link href="/pricing">Pricing</Link>
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <NavigationMenuLink asChild>
-                            <Link href="/contact">Contact Us</Link>
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
-            </NavigationMenu>
+            {/* Navigation Desktop */}
+            <div className="hidden md:block">
+                <NavigationMenu>
+                    <NavigationMenuList className="gap-8">
+                        <NavigationMenuItem>
+                            <NavigationMenuTrigger>Courses</NavigationMenuTrigger>
+                            <NavigationMenuContent>
+                                <ul className="grid md:grid-cols-2 gap-2 p-4 md:w-125 lg:w-150">
+                                    {courses.map((course, index) => (
+                                        <Link key={index} href={course.path} className="p-2 hover:bg-accent rounded-xl cursor-pointer block">
+                                            <h2 className="font-medium">{course.name}</h2>
+                                            <p className="text-xs text-muted-foreground">{course.desc}</p>
+                                        </Link>
+                                    ))}
+                                </ul>
+                            </NavigationMenuContent>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                                <Link href="/projects">Projects</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                                <Link href="/pricing">Pricing</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+                        <NavigationMenuItem>
+                            <NavigationMenuLink asChild className="group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50">
+                                <Link href="/contact">Contact Us</Link>
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+                    </NavigationMenuList>
+                </NavigationMenu>
+            </div>
 
-            <Button className="font-game text-2xl" variant="pixel">
-                Signup
-            </Button>
+            <div className="flex items-center gap-4">
+                <Button className="font-game text-xl hidden sm:flex" variant="pixel">
+                    Signup
+                </Button>
+
+                {/* Menu Mobile avec Sheet de Shadcn */}
+                <div className="md:hidden">
+                    <Sheet>
+                        <SheetTrigger asChild>
+                            <Button variant="outline" size="icon">
+                                <Menu className="h-6 w-6" />
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent side="right" className="w-75 sm:w-100">
+                            <SheetHeader>
+                                <SheetTitle className="text-left font-game text-2xl">CodeBox</SheetTitle>
+                            </SheetHeader>
+                            <div className="flex flex-col gap-4 mt-8">
+                                <Link href="/courses" className="text-lg font-medium hover:text-primary">Courses</Link>
+                                <Link href="/projects" className="text-lg font-medium hover:text-primary">Projects</Link>
+                                <Link href="/pricing" className="text-lg font-medium hover:text-primary">Pricing</Link>
+                                <Link href="/contact" className="text-lg font-medium hover:text-primary">Contact Us</Link>
+                                <hr className="my-2" />
+                                <Button className="font-game text-xl w-full" variant="pixel">
+                                    Signup
+                                </Button>
+                            </div>
+                        </SheetContent>
+                    </Sheet>
+                </div>
+            </div>
         </div>
     );
 };
