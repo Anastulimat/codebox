@@ -30,6 +30,12 @@ export const metadata: Metadata = {
 };
 
 
+/**
+ * Root layout component that applies global fonts and wraps page content with the theme provider.
+ *
+ * @param children - The React nodes to render inside the layout's ThemeProvider.
+ * @returns A JSX element representing the document root (<html> and <body>) with font CSS variables applied and the children wrapped by ThemeProvider configured with a default dark theme and system theme support.
+ */
 export default function RootLayout({
                                        children,
                                    }: Readonly<{
